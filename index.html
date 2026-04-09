@@ -32,9 +32,7 @@
             flex-direction: column;
         }
 
-        /* Gold Theme from previous image */
         .gold { background: linear-gradient(145deg, #b89555 0%, #d4b67a 45%, #b89555 100%); color: white; }
-        /* Platinum Theme from recent black card image */
         .platinum { background: #222; color: white; border: 1px solid #444; }
 
         .erste-logo-card { font-weight: 800; font-size: 18px; line-height: 1.1; }
@@ -52,7 +50,6 @@
 
         .holder-name { position: absolute; bottom: 20px; left: 25px; font-size: 12px; text-transform: uppercase; font-weight: bold; }
 
-        /* Dashboard Balance */
         .balance-info { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 12px 18px; border-radius: 10px; margin: 15px 0 5px 0; border-left: 5px solid #059669; font-size: 14px; }
         .balance-amt { color: #059669; font-weight: 800; font-size: 16px; }
 
@@ -87,7 +84,7 @@
             <div class="erste-logo-card">ERSTE<span class="sparkasse-dot"></span><br><span>Bank</span></div>
             <div class="chip-box"></div>
             <div class="card-num">4627 6539 1972 9328</div>
-            <div class="holder-name">BRANKO MILLOS <br> <span style="font-size: 10px; opacity:0.8;">EXP 05/28</span></div>
+            <div class="holder-name">BRANKO MILOS <br> <span style="font-size: 10px; opacity:0.8;">EXP 05/28</span></div>
             <div class="visa-logo-bottom"><span class="v-text">VISA</span><span class="v-sub">Gold</span></div>
         </div>
         <button id="nextToPlat">Verify & Next</button>
@@ -100,10 +97,10 @@
             <div class="erste-logo-card">ERSTE<span class="sparkasse-dot"></span><br><span>Bank</span></div>
             <div class="chip-box"></div>
             <div class="card-num">4084 8663 1028 8860</div>
-            <div class="holder-name">BRANKO MILLOS <br> <span style="font-size: 10px; opacity:0.8;">EXP 04/34</span></div>
+            <div class="holder-name">BRANKO MILOS <br> <span style="font-size: 10px; opacity:0.8;">EXP 04/34</span></div>
             <div class="visa-logo-bottom"><span class="v-text">VISA</span><span class="v-sub">Platinum</span></div>
         </div>
-        <input type="text" id="final-name" placeholder="Type Register Name: BRANKO MILLOS" style="margin-top:20px;">
+        <input type="text" id="final-name" placeholder="Type Register Name: BRANKO MILOS" style="margin-top:20px;">
         <button id="finishBtn">Complete AMLA Registration</button>
     </div>
 
@@ -118,7 +115,7 @@
             <div class="erste-logo-card">ERSTE<span class="sparkasse-dot"></span><br><span>Bank</span></div>
             <div class="chip-box"></div>
             <div class="card-num">4627 6539 1972 9328</div>
-            <div class="holder-name">BRANKO MILLOS <br> <span style="font-size: 10px; opacity:0.8;">EXP 05/28 | CVV 338</span></div>
+            <div class="holder-name">BRANKO MILOS <br> <span style="font-size: 10px; opacity:0.8;">EXP 05/28 | CVV 338</span></div>
             <div class="visa-logo-bottom"><span class="v-text">VISA</span><span class="v-sub">Gold</span></div>
         </div>
 
@@ -127,7 +124,7 @@
             <div class="erste-logo-card">ERSTE<span class="sparkasse-dot"></span><br><span>Bank</span></div>
             <div class="chip-box"></div>
             <div class="card-num">4084 8663 1028 8860</div>
-            <div class="holder-name">BRANKO MILLOS <br> <span style="font-size: 10px; opacity:0.8;">EXP 04/34 | CVV 960</span></div>
+            <div class="holder-name">BRANKO MILOS <br> <span style="font-size: 10px; opacity:0.8;">EXP 04/34 | CVV 960</span></div>
             <div class="visa-logo-bottom"><span class="v-text">VISA</span><span class="v-sub">Platinum</span></div>
         </div>
         
@@ -161,14 +158,14 @@
         });
 
         document.getElementById('finishBtn').addEventListener('click', () => {
-            if(document.getElementById('final-name').value.toUpperCase() === "BRANKO MILLOS") {
+            if(document.getElementById('final-name').value.toUpperCase() === "BRANKO MILOS") {
                 loader.classList.remove('hidden');
                 setTimeout(() => {
                     loader.classList.add('hidden');
                     document.getElementById('plat-verify-section').classList.add('hidden');
                     document.getElementById('dashboard-section').classList.remove('hidden');
                 }, 2000);
-            } else { alert("Please enter the correct Register Name."); }
+            } else { alert("Please enter the correct Register Name: BRANKO MILOS"); }
         });
     </script>
 </body>
