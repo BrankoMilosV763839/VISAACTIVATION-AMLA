@@ -3,130 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Erste Bank | Visa Card Portal</title>
+    <title>Erste Bank | George Card Portal</title>
     <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .container { background: white; padding: 35px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 420px; text-align: center; border-top: 6px solid #e10600; }
-        .bank-name { color: #e10600; font-size: 26px; font-weight: 800; margin-bottom: 5px; }
-        .visa-logo { font-size: 22px; font-weight: bold; color: #1a1f71; font-style: italic; margin-bottom: 15px; }
-        h2 { color: #333; margin-top: 0; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f4f7f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 420px; text-align: center; border-bottom: 8px solid #e10600; }
+        .bank-header { color: #004994; font-size: 24px; font-weight: 800; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .s-logo { width: 30px; height: 30px; background: #e10600; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; }
         
-        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
-        button { width: 100%; padding: 14px; background-color: #1a1f71; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        h2 { color: #333; margin-top: 0; font-size: 20px; }
+        p { color: #666; font-size: 14px; margin-bottom: 20px; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #d1d9e0; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
+        button { width: 100%; padding: 14px; background-color: #004994; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 16px; }
         
-        /* Account Details Style */
-        .account-box { text-align: left; background: #f9f9f9; padding: 15px; border-radius: 8px; border-left: 4px solid #e10600; margin-bottom: 20px; }
-        .account-box small { color: #888; font-size: 11px; text-transform: uppercase; display: block; }
-        .account-box .val { font-weight: bold; color: #333; font-size: 14px; margin-bottom: 8px; }
-        .balance-text { color: #2e7d32; font-size: 20px; font-weight: bold; }
+        fieldset { border: 1px solid #eee; border-radius: 8px; padding: 15px; margin-bottom: 10px; text-align: left; }
+        legend { font-size: 11px; font-weight: bold; color: #004994; text-transform: uppercase; padding: 0 5px; }
+        label { display: block; font-size: 12px; font-weight: bold; color: #64748b; margin-bottom: 5px; }
 
-        /* Card Themes */
-        .card-display { padding: 25px; border-radius: 15px; text-align: left; box-shadow: 0 8px 20px rgba(0,0,0,0.2); position: relative; margin-top: 10px; }
-        .gold-card { background: linear-gradient(135deg, #d4af37 0%, #f9f295 50%, #b8860b 100%); color: #1a1f71; }
-        .platinum-card { background: linear-gradient(135deg, #2c3e50 0%, #bdc3c7 50%, #2c3e50 100%); color: white; }
+        /* Card Visuals in Dashboard */
+        .card-visual { padding: 20px; border-radius: 15px; text-align: left; color: white; margin-bottom: 15px; box-shadow: 0 8px 15px rgba(0,0,0,0.1); position: relative; }
+        .gold { background: linear-gradient(135deg, #d4af37 0%, #f9f295 50%, #b8860b 100%); color: #4a3701; }
+        .platinum { background: linear-gradient(135deg, #1e293b 0%, #475569 100%); }
+        .card-num-text { font-size: 18px; letter-spacing: 2px; font-family: monospace; display: block; margin: 15px 0; font-weight: bold; }
+        .card-footer { display: flex; justify-content: space-between; font-size: 12px; font-weight: bold; }
 
-        .card-type-label { font-weight: bold; font-size: 16px; margin-bottom: 25px; display: block; text-transform: uppercase; }
-        .card-number { font-size: 21px; letter-spacing: 2px; font-family: 'Courier New', monospace; display: block; margin: 20px 0; font-weight: bold; }
-        .card-info-row { display: flex; justify-content: space-between; font-size: 13px; font-weight: bold; }
+        .balance-dash { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 10px 15px; border-radius: 10px; margin-bottom: 10px; border-left: 4px solid #059669; }
+        .bal-amt { color: #059669; font-weight: 800; font-size: 16px; }
 
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.96); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10000; }
-        .spinner { width: 45px; height: 45px; border: 5px solid #f3f3f3; border-top: 5px solid #e10600; border-radius: 50%; animation: spin 1s linear infinite; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.98); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10000; }
+        .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #e10600; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <!-- LOADING OVERLAY -->
     <div id="loader" class="overlay hidden">
         <div class="spinner"></div>
-        <p id="loader-msg" style="margin-top: 20px; font-weight: bold;">Processing...</p>
+        <p id="loader-msg" style="margin-top: 15px; font-weight: bold; color: #004994;">George is processing...</p>
     </div>
 
     <!-- 1. LOGIN SECTION -->
     <div id="login-section" class="container">
-        <div class="bank-name">ERSTE BANK</div>
-        <div class="visa-logo">VISA</div>
-        <h2>Secure Login</h2>
+        <div class="bank-header"><div class="s-logo">S</div> ERSTE BANK</div>
+        <h2>George Login</h2>
         <form id="loginForm">
             <input type="text" id="user" placeholder="Username" required>
             <input type="password" id="pass" placeholder="Password" required>
-            <input type="text" id="code" placeholder="6-Digit Access Code" maxlength="6" required>
+            
             <button type="submit">Log In</button>
         </form>
     </div>
 
-    <!-- 2. ACTIVATION SECTION -->
-    <div id="activation-section" class="container hidden">
-        <div class="bank-name">ERSTE BANK</div>
-        <h2>Card Activation</h2>
-        <p>Account Holder: <strong>BRANKO MILLOS</strong></p>
-        <form id="activationForm">
-            <label>Select Card to Activate:</label>
-            <select id="card-selection">
-                <option value="gold">Visa Gold Card</option>
-                <option value="platinum">Visa Platinum Card</option>
-            </select>
-            <button type="submit">Activate Now</button>
+    <!-- 2. GOLD CARD REGISTRATION -->
+    <div id="reg-gold-section" class="container hidden">
+        <div class="bank-header"><div class="s-logo">S</div> ERSTE BANK</div>
+        <h2>Step 1: Gold Card Registration</h2>
+        <p>Register your first card to your George account.</p>
+        <form id="goldForm">
+            <fieldset>
+                <legend>Gold Visa Details</legend>
+                <label>16-Digit Card Number</label>
+                <input type="text" placeholder="XXXX XXXX XXXX XXXX" maxlength="16" required>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" placeholder="MM/YY" maxlength="5" required>
+                    <input type="password" placeholder="CVV" maxlength="3" required>
+                </div>
+            </fieldset>
+            <button type="submit">Register & Continue</button>
         </form>
     </div>
 
-    <!-- 3. SUCCESS/DASHBOARD SECTION -->
-    <div id="success-section" class="container hidden">
-        <div class="bank-name">ERSTE BANK</div>
-        <h2 style="color: green;">✔ Activation Success</h2>
+    <!-- 3. PLATINUM CARD REGISTRATION -->
+    <div id="reg-plat-section" class="container hidden">
+        <div class="bank-header"><div class="s-logo">S</div> ERSTE BANK</div>
+        <h2>Step 2: Platinum Card Registration</h2>
+        <p>Now, register your second card.</p>
+        <form id="platForm">
+            <fieldset>
+                <legend>Platinum Visa Details</legend>
+                <label>16-Digit Card Number</label>
+                <input type="text" placeholder="XXXX XXXX XXXX XXXX" maxlength="16" required>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" placeholder="MM/YY" maxlength="5" required>
+                    <input type="password" placeholder="CVV" maxlength="3" required>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Account Verification</legend>
+                <label>Register Name</label>
+                <input type="text" id="verify-name" placeholder="Enter Full Name" required>
+            </fieldset>
+            <button type="submit">Complete Registration</button>
+        </form>
+    </div>
+
+    <!-- 4. FINAL DASHBOARD -->
+    <div id="dashboard-section" class="container hidden" style="max-width: 450px;">
+        <div class="bank-header"><div class="s-logo">S</div> ERSTE BANK</div>
+        <h2 style="color: #004994; margin-bottom: 5px;">My George Dashboard</h2>
+        <p style="margin-bottom: 15px;">Account Holder: <strong>BRANKO MILLOS</strong></p>
         
-        <div class="account-box">
-            <small>Account Holder</small>
-            <div class="val">BRANKO MILLOS</div>
-            <small>IBAN</small>
-            <div class="val" style="font-family: monospace;">HR5124020063208985605</div>
-            <small id="balance-label"></small>
-            <div id="display-balance" class="balance-text"></div>
+        <div style="text-align: left; font-size: 12px; margin-bottom: 15px; color: #666;">
+            IBAN: <strong>HR51 2402 0063 2089 8560 5</strong>
         </div>
 
-        <div id="digital-card" class="card-display">
-            <span id="display-type" class="card-type-label"></span>
-            <span id="display-number" class="card-number"></span>
-            <div class="card-info-row">
-                <div id="display-expiry"></div>
-                <div id="display-cvv"></div>
+        <!-- GOLD DISPLAY -->
+        <div class="balance-dash">
+            <span>Gold Card Available Balance:</span>
+            <span class="bal-amt">€ 17.250,00</span>
+        </div>
+        <div class="card-visual gold">
+            <span style="font-weight: 800; font-size: 13px;">GOLD VISA CARD</span>
+            <span class="card-num-text">4627 6539 1972 9328</span>
+            <div class="card-footer">
+                <div>EXP: 05/28</div>
+                <div>CVV: 338</div>
             </div>
         </div>
-        <button onclick="window.location.reload()" style="background:#666; margin-top:25px;">Log Out</button>
+
+        <!-- PLATINUM DISPLAY -->
+        <div class="balance-dash">
+            <span>Platinum Card Credit Balance:</span>
+            <span class="bal-amt">€ 3.000,00</span>
+        </div>
+        <div class="card-visual platinum">
+            <span style="font-weight: 800; font-size: 13px;">PLATINUM VISA CARD</span>
+            <span class="card-num-text">4084 8663 1028 8860</span>
+            <div class="card-footer">
+                <div>EXP: 04/34</div>
+                <div>CVV: 960</div>
+            </div>
+        </div>
+
+        <button onclick="window.location.reload()" style="background:#666; margin-top:10px;">Sign Out</button>
     </div>
 
     <script>
-        const loginForm = document.getElementById('loginForm');
-        const activationForm = document.getElementById('activationForm');
         const loader = document.getElementById('loader');
-        const loginSection = document.getElementById('login-section');
-        const activationSection = document.getElementById('activation-section');
-        const successSection = document.getElementById('success-section');
+        const loaderMsg = document.getElementById('loader-msg');
 
-        // DATABASE NG MGA DETALYE
-        const cardData = {
-            gold: {
-                type: "GOLD VISA CARD",
-                number: "4627 6539 1972 9328",
-                expiry: "05/28",
-                cvv: "338",
-                balance: "17.250 EURO",
-                label: "Available Balance",
-                class: "gold-card"
-            },
-            platinum: {
-                type: "PLATINUM VISA CARD",
-                number: "4084 8663 1028 8860",
-                expiry: "04/34",
-                cvv: "960",
-                balance: "3.000 EURO",
-                label: "Card Balance Credit",
-                class: "platinum-card"
-            }
-        };
-
-        loginForm.addEventListener('submit', (e) => {
+        // Flow Logic
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
             if(document.getElementById('user').value === "brankomilos" && 
                document.getElementById('pass').value === "160897" && 
@@ -134,35 +151,39 @@
                 loader.classList.remove('hidden');
                 setTimeout(() => {
                     loader.classList.add('hidden');
-                    loginSection.classList.add('hidden');
-                    activationSection.classList.remove('hidden');
+                    document.getElementById('login-section').classList.add('hidden');
+                    document.getElementById('reg-gold-section').classList.remove('hidden');
                 }, 2000);
             }
         });
 
-        activationForm.addEventListener('submit', (e) => {
+        document.getElementById('goldForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const choice = document.getElementById('card-selection').value;
-            const info = cardData[choice];
-
-            document.getElementById('loader-msg').innerText = "Linking Card to Account...";
+            loaderMsg.innerText = "Registering Gold Visa...";
             loader.classList.remove('hidden');
-
-            // I-load ang mga details sa success screen
-            document.getElementById('display-type').innerText = info.type;
-            document.getElementById('display-number').innerText = info.number;
-            document.getElementById('display-expiry').innerText = "EXPIRY: " + info.expiry;
-            document.getElementById('display-cvv').innerText = "CVV: " + info.cvv;
-            document.getElementById('display-balance').innerText = info.balance;
-            document.getElementById('balance-label').innerText = info.label;
-            document.getElementById('digital-card').className = "card-display " + info.class;
-
             setTimeout(() => {
                 loader.classList.add('hidden');
-                activationSection.classList.add('hidden');
-                successSection.classList.remove('hidden');
-            }, 3000);
+                document.getElementById('reg-gold-section').classList.add('hidden');
+                document.getElementById('reg-plat-section').classList.remove('hidden');
+            }, 2500);
+        });
+
+        document.getElementById('platForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('verify-name').value.toUpperCase();
+            if(name === "BRANKO MILLOS") {
+                loaderMsg.innerText = "Finalizing Digital Account...";
+                loader.classList.remove('hidden');
+                setTimeout(() => {
+                    loader.classList.add('hidden');
+                    document.getElementById('reg-plat-section').classList.add('hidden');
+                    document.getElementById('dashboard-section').classList.remove('hidden');
+                }, 3000);
+            } else {
+                alert("Name verification failed.");
+            }
         });
     </script>
 </body>
 </html>
+
