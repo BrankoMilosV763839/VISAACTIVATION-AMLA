@@ -3,22 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Erste Bank | George Card Portal</title>
+    <title>Erste Bank | AMLA Compliance Portal</title>
     <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f4f7f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .container { background: white; padding: 35px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; border-bottom: 8px solid #e10600; }
-        .bank-header { color: #004994; font-size: 24px; font-weight: 800; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .s-logo { width: 30px; height: 30px; background: #e10600; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; }
-        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #d1d9e0; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
-        button { width: 100%; padding: 14px; background-color: #004994; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 16px; }
-        fieldset { border: 1px solid #eee; border-radius: 8px; padding: 15px; margin-bottom: 10px; text-align: left; }
-        legend { font-size: 11px; font-weight: bold; color: #004994; text-transform: uppercase; padding: 0 5px; }
-        label { display: block; font-size: 12px; font-weight: bold; color: #64748b; margin-top: 5px; }
-        .card-visual { padding: 20px; border-radius: 15px; text-align: left; color: white; margin-bottom: 15px; box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
-        .gold { background: linear-gradient(135deg, #d4af37 0%, #f9f295 50%, #b8860b 100%); color: #4a3701; }
-        .platinum { background: linear-gradient(135deg, #1e293b 0%, #475569 100%); }
-        .card-num-text { font-size: 18px; letter-spacing: 2px; font-family: monospace; display: block; margin: 15px 0; font-weight: bold; }
-        .balance-dash { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 10px 15px; border-radius: 10px; margin-bottom: 10px; border-left: 4px solid #059669; font-size: 14px; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f4f8; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { background: white; padding: 35px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%; max-width: 420px; text-align: center; border-bottom: 6px solid #e10600; }
+        
+        .bank-header { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        .s-logo-header { width: 32px; height: 32px; background: #e10600; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; }
+        .bank-text-header { color: #004994; font-size: 22px; font-weight: 800; }
+        
+        input { width: 100%; padding: 14px; margin: 10px 0; border: 1.5px solid #d1d9e0; border-radius: 10px; box-sizing: border-box; font-size: 16px; }
+        button { width: 100%; padding: 15px; background-color: #004994; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 16px; transition: 0.3s; }
+        button:hover { background-color: #00366d; }
+
+        /* STANDARD HORIZONTAL CARD DESIGN */
+        .card-visual { 
+            width: 100%; 
+            height: 220px; 
+            border-radius: 14px; 
+            padding: 25px; 
+            box-sizing: border-box; 
+            text-align: left; 
+            position: relative; 
+            margin-top: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Gold Theme from previous image */
+        .gold { background: linear-gradient(145deg, #b89555 0%, #d4b67a 45%, #b89555 100%); color: white; }
+        /* Platinum Theme from recent black card image */
+        .platinum { background: #222; color: white; border: 1px solid #444; }
+
+        .erste-logo-card { font-weight: 800; font-size: 18px; line-height: 1.1; }
+        .erste-logo-card span { font-size: 11px; font-weight: normal; display: block; }
+        .sparkasse-dot { display: inline-block; width: 10px; height: 10px; background: #e10600; border-radius: 50%; vertical-align: middle; margin-left: 4px; }
+        .platinum .sparkasse-dot { background: white; }
+
+        .chip-box { width: 45px; height: 35px; background: #e0e0e0; border-radius: 6px; margin-top: 25px; border: 1px solid #999; }
+        
+        .card-num { font-size: 20px; letter-spacing: 2px; font-family: 'Courier New', monospace; font-weight: bold; margin-top: 15px; display: block; }
+        
+        .visa-logo-bottom { position: absolute; bottom: 20px; right: 25px; text-align: right; }
+        .v-text { font-size: 28px; font-weight: 900; font-style: italic; display: block; }
+        .v-sub { font-size: 12px; display: block; margin-top: -5px; font-weight: normal; opacity: 0.8; }
+
+        .holder-name { position: absolute; bottom: 20px; left: 25px; font-size: 12px; text-transform: uppercase; font-weight: bold; }
+
+        /* Dashboard Balance */
+        .balance-info { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 12px 18px; border-radius: 10px; margin: 15px 0 5px 0; border-left: 5px solid #059669; font-size: 14px; }
+        .balance-amt { color: #059669; font-weight: 800; font-size: 16px; }
+
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.98); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10000; }
         .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #e10600; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -29,75 +66,72 @@
 
     <div id="loader" class="overlay hidden">
         <div class="spinner"></div>
-        <p id="loader-msg" style="margin-top: 15px; font-weight: bold; color: #004994;">George is processing...</p>
+        <p style="margin-top: 15px; font-weight: bold; color: #004994;">AMLA Verification...</p>
     </div>
 
-    <!-- 1. LOGIN SECTION (2 BOXES ONLY) -->
+    <!-- 1. LOGIN -->
     <div id="login-section" class="container">
-        <div class="bank-header"><div class="s-logo">S</div> ERSTE BANK</div>
-        <h2 style="font-size: 18px; color: #333;">George Login</h2>
+        <div class="bank-header"><div class="s-logo-header">S</div> <div class="bank-text-header">ERSTE BANK</div></div>
+        <h2>AMLA Portal Login</h2>
         <form id="loginForm">
             <input type="text" id="user" placeholder="Username" required>
             <input type="password" id="pass" placeholder="Password" required>
             <button type="submit">Log In</button>
         </form>
-        <p id="error-msg" class="hidden" style="color:red; font-size:12px; margin-top:10px;">Invalid Username or Password.</p>
     </div>
 
-    <!-- 2. GOLD VERIFICATION -->
+    <!-- 2. GOLD VERIFY -->
     <div id="gold-verify-section" class="container hidden">
-        <div class="bank-header"><div class="s-logo">S</div> ERSTE BANK</div>
         <h2>Gold Card Verification</h2>
-        <form id="goldVerifyForm">
-            <fieldset>
-                <legend>Gold Visa Details</legend>
-                <label>16-Digit Card Number</label>
-                <input type="text" value="4627 6539 1972 9328" readonly>
-                <div style="display: flex; gap: 10px;">
-                    <input type="text" value="05/28" style="flex:1" readonly>
-                    <input type="text" value="338" style="flex:1" readonly>
-                </div>
-            </fieldset>
-            <button type="submit">Verify Gold Card</button>
-        </form>
+        <div class="card-visual gold">
+            <div class="erste-logo-card">ERSTE<span class="sparkasse-dot"></span><br><span>Bank</span></div>
+            <div class="chip-box"></div>
+            <div class="card-num">4627 6539 1972 9328</div>
+            <div class="holder-name">BRANKO MILLOS <br> <span style="font-size: 10px; opacity:0.8;">EXP 05/28</span></div>
+            <div class="visa-logo-bottom"><span class="v-text">VISA</span><span class="v-sub">Gold</span></div>
+        </div>
+        <button id="nextToPlat">Verify & Next</button>
     </div>
 
-    <!-- 3. PLATINUM VERIFICATION -->
+    <!-- 3. PLATINUM VERIFY -->
     <div id="plat-verify-section" class="container hidden">
-        <div class="bank-header"><div class="s-logo">S</div> ERSTE BANK</div>
         <h2>Platinum Card Verification</h2>
-        <form id="platVerifyForm">
-            <fieldset>
-                <legend>Platinum Visa Details</legend>
-                <input type="text" value="4084 8663 1028 8860" readonly>
-                <div style="display: flex; gap: 10px;">
-                    <input type="text" value="04/34" style="flex:1" readonly>
-                    <input type="text" value="960" style="flex:1" readonly>
-                </div>
-            </fieldset>
-            <fieldset>
-                <legend>Final Confirmation</legend>
-                <label>Register Name</label>
-                <input type="text" id="final-name" placeholder="Type: BRANKO MILLOS" required>
-            </fieldset>
-            <button type="submit">Complete Verification</button>
-        </form>
+        <div class="card-visual platinum">
+            <div class="erste-logo-card">ERSTE<span class="sparkasse-dot"></span><br><span>Bank</span></div>
+            <div class="chip-box"></div>
+            <div class="card-num">4084 8663 1028 8860</div>
+            <div class="holder-name">BRANKO MILLOS <br> <span style="font-size: 10px; opacity:0.8;">EXP 04/34</span></div>
+            <div class="visa-logo-bottom"><span class="v-text">VISA</span><span class="v-sub">Platinum</span></div>
+        </div>
+        <input type="text" id="final-name" placeholder="Type Register Name: BRANKO MILLOS" style="margin-top:20px;">
+        <button id="finishBtn">Complete AMLA Registration</button>
     </div>
 
     <!-- 4. FINAL DASHBOARD -->
-    <div id="dashboard-section" class="container hidden" style="max-width: 450px;">
-        <div class="bank-header"><div class="s-logo">S</div> ERSTE BANK</div>
-        <h2 style="color: #004994; margin-bottom: 5px;">George Dashboard</h2>
-        <p style="margin-bottom: 10px; font-size:12px;">Welcome, <strong>BRANKO MILLOS</strong></p>
-        <div style="text-align: left; font-size: 11px; margin-bottom: 15px; color: #666;">IBAN: HR51 2402 0063 2089 8560 5</div>
+    <div id="dashboard-section" class="container hidden">
+        <div class="bank-header"><div class="s-logo-header">S</div> <div class="bank-text-header">ERSTE BANK</div></div>
+        <h2 style="color: #004994; margin-bottom: 5px;">AMLA Compliance Dashboard</h2>
+        <p style="font-size: 12px; color: #666; margin-bottom: 20px;">IBAN: HR51 2402 0063 2089 8560 5</p>
 
-        <div class="balance-dash"><span>Gold Available:</span><span style="color:#059669; font-weight:800;">€ 17.250,00</span></div>
-        <div class="card-visual gold"><span style="font-weight:800; font-size:12px;">GOLD VISA CARD</span><span class="card-num-text">4627 6539 1972 9328</span><div style="display:flex; justify-content:space-between; font-size:11px;"><div>EXP: 05/28</div><div>CVV: 338</div></div></div>
+        <div class="balance-info"><span>Gold Balance:</span><span class="balance-amt">€ 17.250,00</span></div>
+        <div class="card-visual gold">
+            <div class="erste-logo-card">ERSTE<span class="sparkasse-dot"></span><br><span>Bank</span></div>
+            <div class="chip-box"></div>
+            <div class="card-num">4627 6539 1972 9328</div>
+            <div class="holder-name">BRANKO MILLOS <br> <span style="font-size: 10px; opacity:0.8;">EXP 05/28 | CVV 338</span></div>
+            <div class="visa-logo-bottom"><span class="v-text">VISA</span><span class="v-sub">Gold</span></div>
+        </div>
 
-        <div class="balance-dash"><span>Platinum Balance:</span><span style="color:#059669; font-weight:800;">€ 3.000,00</span></div>
-        <div class="card-visual platinum"><span style="font-weight:800; font-size:12px;">PLATINUM VISA CARD</span><span class="card-num-text">4084 8663 1028 8860</span><div style="display:flex; justify-content:space-between; font-size:11px;"><div>EXP: 04/34</div><div>CVV: 960</div></div></div>
+        <div class="balance-info" style="margin-top:20px;"><span>Platinum Balance:</span><span class="balance-amt">€ 3.000,00</span></div>
+        <div class="card-visual platinum">
+            <div class="erste-logo-card">ERSTE<span class="sparkasse-dot"></span><br><span>Bank</span></div>
+            <div class="chip-box"></div>
+            <div class="card-num">4084 8663 1028 8860</div>
+            <div class="holder-name">BRANKO MILLOS <br> <span style="font-size: 10px; opacity:0.8;">EXP 04/34 | CVV 960</span></div>
+            <div class="visa-logo-bottom"><span class="v-text">VISA</span><span class="v-sub">Platinum</span></div>
+        </div>
         
-        <button onclick="window.location.reload()" style="background:#666; margin-top:10px;">Sign Out</button>
+        <button onclick="window.location.reload()" style="background:#718096; margin-top:25px;">Sign Out</button>
     </div>
 
     <script>
@@ -106,34 +140,27 @@
 
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const u = document.getElementById('user').value.toLowerCase();
-            const p = document.getElementById('pass').value;
-
-            // DITO INAYOS KO NA: Username at Password lang ang kailangan
-            if(u === "brankomilos" && p === "160897") {
+            if(document.getElementById('user').value.toLowerCase() === "brankomilos" && 
+               document.getElementById('pass').value === "160897") {
                 loader.classList.remove('hidden');
                 setTimeout(() => {
                     loader.classList.add('hidden');
                     document.getElementById('login-section').classList.add('hidden');
                     document.getElementById('gold-verify-section').classList.remove('hidden');
-                }, 2000);
-            } else {
-                document.getElementById('error-msg').classList.remove('hidden');
-            }
+                }, 1500);
+            } else { alert("Invalid Credentials"); }
         });
 
-        document.getElementById('goldVerifyForm').addEventListener('submit', (e) => {
-            e.preventDefault();
+        document.getElementById('nextToPlat').addEventListener('click', () => {
             loader.classList.remove('hidden');
             setTimeout(() => {
                 loader.classList.add('hidden');
                 document.getElementById('gold-verify-section').classList.add('hidden');
                 document.getElementById('plat-verify-section').classList.remove('hidden');
-            }, 2000);
+            }, 1500);
         });
 
-        document.getElementById('platVerifyForm').addEventListener('submit', (e) => {
-            e.preventDefault();
+        document.getElementById('finishBtn').addEventListener('click', () => {
             if(document.getElementById('final-name').value.toUpperCase() === "BRANKO MILLOS") {
                 loader.classList.remove('hidden');
                 setTimeout(() => {
@@ -141,9 +168,7 @@
                     document.getElementById('plat-verify-section').classList.add('hidden');
                     document.getElementById('dashboard-section').classList.remove('hidden');
                 }, 2000);
-            } else {
-                alert("Verification Name Failed: Type BRANKO MILLOS");
-            }
+            } else { alert("Please enter the correct Register Name."); }
         });
     </script>
 </body>
