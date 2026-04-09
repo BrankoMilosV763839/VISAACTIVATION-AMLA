@@ -3,133 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Erste Bank | Visa Card Activation</title>
+    <title>Erste Bank | Visa Card Portal</title>
     <style>
-        /* PINAGSAMANG DESIGN (CSS) */
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
         .container { background: white; padding: 35px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 420px; text-align: center; border-top: 6px solid #e10600; }
-        .bank-name { color: #e10600; font-size: 26px; font-weight: 800; letter-spacing: 1px; margin-bottom: 5px; }
+        .bank-name { color: #e10600; font-size: 26px; font-weight: 800; margin-bottom: 5px; }
         .visa-logo { font-size: 22px; font-weight: bold; color: #1a1f71; font-style: italic; margin-bottom: 15px; }
-        h2 { color: #333; margin-top: 0; font-size: 22px; }
-        p { color: #666; font-size: 14px; margin-bottom: 25px; }
+        h2 { color: #333; margin-top: 0; }
         
-        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 15px; }
-        input:focus, select:focus { border-color: #1a1f71; outline: none; box-shadow: 0 0 5px rgba(26,31,113,0.2); }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        button { width: 100%; padding: 14px; background-color: #1a1f71; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         
-        button { width: 100%; padding: 14px; background-color: #1a1f71; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        button:hover { background-color: #272c8a; }
+        /* Account Details Style */
+        .account-box { text-align: left; background: #f9f9f9; padding: 15px; border-radius: 8px; border-left: 4px solid #e10600; margin-bottom: 20px; }
+        .account-box small { color: #888; font-size: 11px; text-transform: uppercase; display: block; }
+        .account-box .val { font-weight: bold; color: #333; font-size: 14px; margin-bottom: 8px; }
+        .balance-text { color: #2e7d32; font-size: 20px; font-weight: bold; }
 
-        fieldset { border: 1px solid #eee; border-radius: 8px; padding: 15px; margin-bottom: 15px; text-align: left; }
-        legend { font-size: 12px; font-weight: bold; color: #1a1f71; text-transform: uppercase; padding: 0 5px; }
-        label { display: block; font-size: 12px; margin-bottom: 5px; color: #444; font-weight: 600; }
+        /* Card Themes */
+        .card-display { padding: 25px; border-radius: 15px; text-align: left; box-shadow: 0 8px 20px rgba(0,0,0,0.2); position: relative; margin-top: 10px; }
+        .gold-card { background: linear-gradient(135deg, #d4af37 0%, #f9f295 50%, #b8860b 100%); color: #1a1f71; }
+        .platinum-card { background: linear-gradient(135deg, #2c3e50 0%, #bdc3c7 50%, #2c3e50 100%); color: white; }
 
-        /* Loading Overlay */
+        .card-type-label { font-weight: bold; font-size: 16px; margin-bottom: 25px; display: block; text-transform: uppercase; }
+        .card-number { font-size: 21px; letter-spacing: 2px; font-family: 'Courier New', monospace; display: block; margin: 20px 0; font-weight: bold; }
+        .card-info-row { display: flex; justify-content: space-between; font-size: 13px; font-weight: bold; }
+
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.96); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10000; }
         .spinner { width: 45px; height: 45px; border: 5px solid #f3f3f3; border-top: 5px solid #e10600; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <!-- LOADING SCREEN -->
+    <!-- LOADING OVERLAY -->
     <div id="loader" class="overlay hidden">
         <div class="spinner"></div>
-        <p id="loader-msg" style="margin-top: 20px; font-weight: bold; color: #333;">Verifying with AMLA Systems...</p>
+        <p id="loader-msg" style="margin-top: 20px; font-weight: bold;">Processing...</p>
     </div>
 
-    <!-- 1. LOGIN FORM -->
+    <!-- 1. LOGIN SECTION -->
     <div id="login-section" class="container">
         <div class="bank-name">ERSTE BANK</div>
         <div class="visa-logo">VISA</div>
         <h2>Secure Login</h2>
-        <p>Please enter your account details.</p>
         <form id="loginForm">
             <input type="text" id="user" placeholder="Username" required>
             <input type="password" id="pass" placeholder="Password" required>
             <input type="text" id="code" placeholder="6-Digit Access Code" maxlength="6" required>
             <button type="submit">Log In</button>
         </form>
-        <p id="error-msg" class="hidden" style="color: #e10600; margin-top: 15px; font-weight: bold;">❌ Authentication Failed. Please check your codes.</p>
     </div>
 
-    <!-- 2. ACTIVATION FORM -->
+    <!-- 2. ACTIVATION SECTION -->
     <div id="activation-section" class="container hidden">
         <div class="bank-name">ERSTE BANK</div>
-        <div class="visa-logo">VISA</div>
         <h2>Card Activation</h2>
-        <p>Welcome back, <strong>brankomilos</strong>!</p>
-        
+        <p>Account Holder: <strong>BRANKO MILLOS</strong></p>
         <form id="activationForm">
-            <label>Select Card Product:</label>
-            <select id="card-type" required>
-                <option value="" disabled selected>-- Select Visa Type --</option>
-                <option value="Visa Gold Card">Visa Gold Card</option>
-                <option value="Visa Platinum Card">Visa Platinum Card</option>
+            <label>Select Card to Activate:</label>
+            <select id="card-selection">
+                <option value="gold">Visa Gold Card</option>
+                <option value="platinum">Visa Platinum Card</option>
             </select>
-
-            <fieldset>
-                <legend>Card Information</legend>
-                <label>Card Number (16 Digits)</label>
-                <input type="text" placeholder="0000 0000 0000 0000" maxlength="16" required>
-                <div style="display: flex; gap: 10px;">
-                    <input type="text" placeholder="MM/YY" maxlength="5" style="flex:1" required>
-                    <input type="password" placeholder="CVV" maxlength="3" style="flex:1" required>
-                </div>
-            </fieldset>
-
-            <fieldset>
-                <legend>AMLA Verification</legend>
-                <label>Registered ID Number</label>
-                <input type="text" placeholder="Verify ID Number" required>
-            </fieldset>
-
-            <button type="submit">Confirm Activation</button>
+            <button type="submit">Activate Now</button>
         </form>
     </div>
 
+    <!-- 3. SUCCESS/DASHBOARD SECTION -->
+    <div id="success-section" class="container hidden">
+        <div class="bank-name">ERSTE BANK</div>
+        <h2 style="color: green;">✔ Activation Success</h2>
+        
+        <div class="account-box">
+            <small>Account Holder</small>
+            <div class="val">BRANKO MILLOS</div>
+            <small>IBAN</small>
+            <div class="val" style="font-family: monospace;">HR5124020063208985605</div>
+            <small id="balance-label"></small>
+            <div id="display-balance" class="balance-text"></div>
+        </div>
+
+        <div id="digital-card" class="card-display">
+            <span id="display-type" class="card-type-label"></span>
+            <span id="display-number" class="card-number"></span>
+            <div class="card-info-row">
+                <div id="display-expiry"></div>
+                <div id="display-cvv"></div>
+            </div>
+        </div>
+        <button onclick="window.location.reload()" style="background:#666; margin-top:25px;">Log Out</button>
+    </div>
+
     <script>
-        /* PINAGSAMANG LOGIC (JAVASCRIPT) */
         const loginForm = document.getElementById('loginForm');
         const activationForm = document.getElementById('activationForm');
         const loader = document.getElementById('loader');
-        const loaderMsg = document.getElementById('loader-msg');
         const loginSection = document.getElementById('login-section');
         const activationSection = document.getElementById('activation-section');
+        const successSection = document.getElementById('success-section');
 
-        // Login Logic
-        loginForm.addEventListener('submit', function(e) {
+        // DATABASE NG MGA DETALYE
+        const cardData = {
+            gold: {
+                type: "GOLD VISA CARD",
+                number: "4627 6539 1972 9328",
+                expiry: "05/28",
+                cvv: "338",
+                balance: "17.250 EURO",
+                label: "Available Balance",
+                class: "gold-card"
+            },
+            platinum: {
+                type: "PLATINUM VISA CARD",
+                number: "4084 8663 1028 8860",
+                expiry: "04/34",
+                cvv: "960",
+                balance: "3.000 EURO",
+                label: "Card Balance Credit",
+                class: "platinum-card"
+            }
+        };
+
+        loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const u = document.getElementById('user').value;
-            const p = document.getElementById('pass').value;
-            const c = document.getElementById('code').value;
-
-            if (u === "brankomilos" && p === "160897" && c === "001997") {
+            if(document.getElementById('user').value === "brankomilos" && 
+               document.getElementById('pass').value === "160897" && 
+               document.getElementById('code').value === "001997") {
                 loader.classList.remove('hidden');
                 setTimeout(() => {
                     loader.classList.add('hidden');
                     loginSection.classList.add('hidden');
                     activationSection.classList.remove('hidden');
-                }, 3000);
-            } else {
-                document.getElementById('error-msg').classList.remove('hidden');
+                }, 2000);
             }
         });
 
-        // Activation Logic
-        activationForm.addEventListener('submit', function(e) {
+        activationForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const selected = document.getElementById('card-type').value;
-            loaderMsg.innerText = "Activating your " + selected + "...";
+            const choice = document.getElementById('card-selection').value;
+            const info = cardData[choice];
+
+            document.getElementById('loader-msg').innerText = "Linking Card to Account...";
             loader.classList.remove('hidden');
+
+            // I-load ang mga details sa success screen
+            document.getElementById('display-type').innerText = info.type;
+            document.getElementById('display-number').innerText = info.number;
+            document.getElementById('display-expiry').innerText = "EXPIRY: " + info.expiry;
+            document.getElementById('display-cvv').innerText = "CVV: " + info.cvv;
+            document.getElementById('display-balance').innerText = info.balance;
+            document.getElementById('balance-label').innerText = info.label;
+            document.getElementById('digital-card').className = "card-display " + info.class;
 
             setTimeout(() => {
                 loader.classList.add('hidden');
-                alert("Success! Your " + selected + " is now active and ready for use.");
-            }, 3500);
+                activationSection.classList.add('hidden');
+                successSection.classList.remove('hidden');
+            }, 3000);
         });
     </script>
 </body>
 </html>
-
