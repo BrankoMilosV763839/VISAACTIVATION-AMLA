@@ -29,22 +29,22 @@
 
     <div id="loader" class="overlay hidden">
         <div class="spinner"></div>
-        <p style="margin-top: 15px; font-weight: bold; color: #004994;">George is processing...</p>
+        <p id="loader-msg" style="margin-top: 15px; font-weight: bold; color: #004994;">George is processing...</p>
     </div>
 
-    <!-- 1. LOGIN SECTION (3 BOXES) -->
+    <!-- 1. LOGIN SECTION (2 BOXES ONLY) -->
     <div id="login-section" class="container">
         <div class="bank-header"><div class="s-logo">S</div> ERSTE BANK</div>
         <h2 style="font-size: 18px; color: #333;">George Login</h2>
         <form id="loginForm">
             <input type="text" id="user" placeholder="Username" required>
             <input type="password" id="pass" placeholder="Password" required>
-            
             <button type="submit">Log In</button>
         </form>
+        <p id="error-msg" class="hidden" style="color:red; font-size:12px; margin-top:10px;">Invalid Username or Password.</p>
     </div>
 
-    <!-- 2. GOLD CARD VERIFICATION -->
+    <!-- 2. GOLD VERIFICATION -->
     <div id="gold-verify-section" class="container hidden">
         <div class="bank-header"><div class="s-logo">S</div> ERSTE BANK</div>
         <h2>Gold Card Verification</h2>
@@ -54,26 +54,25 @@
                 <label>16-Digit Card Number</label>
                 <input type="text" value="4627 6539 1972 9328" readonly>
                 <div style="display: flex; gap: 10px;">
-                    <div style="flex:1;"><label>Expiry</label><input type="text" value="05/28" readonly></div>
-                    <div style="flex:1;"><label>CVV</label><input type="text" value="338" readonly></div>
+                    <input type="text" value="05/28" style="flex:1" readonly>
+                    <input type="text" value="338" style="flex:1" readonly>
                 </div>
             </fieldset>
             <button type="submit">Verify Gold Card</button>
         </form>
     </div>
 
-    <!-- 3. PLATINUM CARD VERIFICATION -->
+    <!-- 3. PLATINUM VERIFICATION -->
     <div id="plat-verify-section" class="container hidden">
         <div class="bank-header"><div class="s-logo">S</div> ERSTE BANK</div>
         <h2>Platinum Card Verification</h2>
         <form id="platVerifyForm">
             <fieldset>
                 <legend>Platinum Visa Details</legend>
-                <label>16-Digit Card Number</label>
                 <input type="text" value="4084 8663 1028 8860" readonly>
                 <div style="display: flex; gap: 10px;">
-                    <div style="flex:1;"><label>Expiry</label><input type="text" value="04/34" readonly></div>
-                    <div style="flex:1;"><label>CVV</label><input type="text" value="960" readonly></div>
+                    <input type="text" value="04/34" style="flex:1" readonly>
+                    <input type="text" value="960" style="flex:1" readonly>
                 </div>
             </fieldset>
             <fieldset>
@@ -85,14 +84,14 @@
         </form>
     </div>
 
-    <!-- 4. DASHBOARD -->
+    <!-- 4. FINAL DASHBOARD -->
     <div id="dashboard-section" class="container hidden" style="max-width: 450px;">
         <div class="bank-header"><div class="s-logo">S</div> ERSTE BANK</div>
         <h2 style="color: #004994; margin-bottom: 5px;">George Dashboard</h2>
         <p style="margin-bottom: 10px; font-size:12px;">Welcome, <strong>BRANKO MILLOS</strong></p>
         <div style="text-align: left; font-size: 11px; margin-bottom: 15px; color: #666;">IBAN: HR51 2402 0063 2089 8560 5</div>
 
-        <div class="balance-dash"><span>Gold Balance:</span><span style="color:#059669; font-weight:800;">€ 17.250,00</span></div>
+        <div class="balance-dash"><span>Gold Available:</span><span style="color:#059669; font-weight:800;">€ 17.250,00</span></div>
         <div class="card-visual gold"><span style="font-weight:800; font-size:12px;">GOLD VISA CARD</span><span class="card-num-text">4627 6539 1972 9328</span><div style="display:flex; justify-content:space-between; font-size:11px;"><div>EXP: 05/28</div><div>CVV: 338</div></div></div>
 
         <div class="balance-dash"><span>Platinum Balance:</span><span style="color:#059669; font-weight:800;">€ 3.000,00</span></div>
@@ -109,16 +108,18 @@
             e.preventDefault();
             const u = document.getElementById('user').value.toLowerCase();
             const p = document.getElementById('pass').value;
-            const c = document.getElementById('code').value;
 
-            if(u === "brankomilos" && p === "160897" && c === "001997") {
+            // DITO INAYOS KO NA: Username at Password lang ang kailangan
+            if(u === "brankomilos" && p === "160897") {
                 loader.classList.remove('hidden');
                 setTimeout(() => {
                     loader.classList.add('hidden');
                     document.getElementById('login-section').classList.add('hidden');
                     document.getElementById('gold-verify-section').classList.remove('hidden');
                 }, 2000);
-            } else { alert("Invalid Credentials"); }
+            } else {
+                document.getElementById('error-msg').classList.remove('hidden');
+            }
         });
 
         document.getElementById('goldVerifyForm').addEventListener('submit', (e) => {
@@ -140,7 +141,9 @@
                     document.getElementById('plat-verify-section').classList.add('hidden');
                     document.getElementById('dashboard-section').classList.remove('hidden');
                 }, 2000);
-            } else { alert("Name Verification Failed."); }
+            } else {
+                alert("Verification Name Failed: Type BRANKO MILLOS");
+            }
         });
     </script>
 </body>
