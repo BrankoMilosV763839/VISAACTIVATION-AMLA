@@ -5,168 +5,168 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ERSTE BANK - AMLA Compliance Dashboard</title>
     <style>
-        /* Modern & Clean Background */
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            overflow: hidden;
         }
 
-        /* Main Container - Hindi na ipit ang design */
+        /* 7-SECOND LOADING SCREEN */
+        #loader-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: white;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 9999;
+        }
+        .spinner {
+            width: 50px; height: 50px;
+            border: 5px solid #f3f3f3; border-top: 5px solid #e11a2b;
+            border-radius: 50%; animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* MAIN DASHBOARD */
+        #main-dashboard { display: none; animation: fadeIn 1s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
         .dashboard-container {
             background-color: white;
-            width: 450px;
-            padding: 40px;
+            width: 460px;
             border-radius: 30px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
             text-align: center;
-            border-top: 8px solid #e11a2b;
+            overflow: hidden; /* Para sa top red notice */
+            padding-bottom: 40px;
         }
 
-        .bank-logo {
-            color: #e11a2b;
-            font-weight: 900;
-            font-size: 26px;
-            margin-bottom: 5px;
-            letter-spacing: -1px;
-        }
-
-        .title {
-            color: #00529b;
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 30px;
+        /* PINAKATAAS NA RED NOTICE */
+        .top-red-notice {
+            background-color: #e11a2b;
+            color: white;
+            padding: 20px;
+            font-weight: bold;
+            font-size: 15px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(225, 26, 43, 0.3);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { background-color: #e11a2b; }
+            50% { background-color: #ff4d4d; }
+            100% { background-color: #e11a2b; }
         }
 
-        /* FUNDS SUMMARY SECTION - Ang bagong 1,200 Refund */
+        .content-padding { padding: 30px 40px; }
+
+        .bank-logo { color: #e11a2b; font-weight: 900; font-size: 24px; margin-bottom: 5px; }
+        .title { color: #00529b; font-size: 13px; font-weight: 700; margin-bottom: 25px; text-transform: uppercase; }
+
+        /* FUNDS BREAKDOWN SUMMARY */
         .funds-summary {
             background-color: #fcfcfc;
             border: 1px solid #eee;
             border-radius: 20px;
             padding: 25px;
-            margin-bottom: 25px;
-            text-align: left;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
-        }
-        .total-label { font-size: 12px; color: #888; font-weight: 600; text-transform: uppercase; }
-        .total-amount { font-size: 32px; font-weight: 800; color: #1a1a1a; display: block; margin: 5px 0; }
-        .refund-text { 
-            font-size: 15px; 
-            color: #27ae60; 
-            font-weight: bold; 
-            background: #e8f5e9;
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 8px;
-        }
-
-        /* ERROR MESSAGE - Expired at 7:40 AM */
-        .error-box {
-            background-color: #fff2f2;
-            border: 1px solid #ffcccc;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 25px;
-            color: #d63031;
+            margin-bottom: 20px;
             text-align: left;
         }
-        .error-box b { color: #b33939; font-size: 15px; display: block; margin-bottom: 5px; }
-        .error-box p { margin: 0; font-size: 13.5px; line-height: 1.5; }
+        .summary-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; color: #555; }
+        .refund-row { color: #27ae60; font-weight: 800; border-bottom: 1.5px dashed #ddd; padding-bottom: 8px; }
+        .new-total-row { font-size: 22px; font-weight: 900; color: #1a1a1a; margin-top: 12px; }
 
-        /* CARDS SECTION */
+        /* CARDS */
         .card {
             background: linear-gradient(135deg, #d4af37, #f1d592);
-            border-radius: 20px;
-            padding: 25px;
-            color: white;
-            text-align: left;
-            margin-bottom: 18px;
-            position: relative;
-            box-shadow: 0 8px 15px rgba(212, 175, 55, 0.2);
-            filter: grayscale(30%); /* Nagpapahiwatig na inactive */
+            border-radius: 20px; padding: 25px; color: white;
+            text-align: left; margin-bottom: 15px; filter: grayscale(15%);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
-        .card.black { 
-            background: linear-gradient(135deg, #2d3436, #000000); 
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-            filter: grayscale(50%);
-        }
-        
-        .card-type { font-size: 11px; font-weight: 600; opacity: 0.9; text-transform: uppercase; }
-        .card-balance { float: right; font-weight: 700; font-size: 18px; }
-        .card-number { font-size: 20px; letter-spacing: 3px; margin-top: 30px; font-family: 'Courier New', monospace; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
-        .status-tag { font-size: 10px; margin-top: 10px; background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px; display: inline-block; }
+        .card.black { background: linear-gradient(135deg, #2d3436, #000000); filter: grayscale(30%); }
+        .card-number { font-size: 20px; letter-spacing: 2px; margin-top: 25px; font-family: 'Courier New', monospace; }
 
-        /* PENALTY NOTICE */
-        .penalty-notice {
-            font-size: 12px;
-            color: #e67e22;
-            margin: 20px 0;
-            font-style: italic;
-            line-height: 1.4;
-        }
+        .penalty-notice { font-size: 12px; color: #d35400; font-style: italic; margin-top: 15px; }
 
         .btn-signout {
-            background-color: #2d3436;
-            color: white;
-            border: none;
-            padding: 16px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-weight: 700;
-            width: 100%;
-            font-size: 16px;
-            transition: all 0.3s ease;
+            background-color: #4a5a67; color: white; border: none;
+            padding: 16px; border-radius: 12px; cursor: pointer;
+            font-weight: 700; width: 100%; margin-top: 20px;
         }
-        .btn-signout:hover { background-color: #000; transform: translateY(-2px); }
     </style>
 </head>
 <body>
 
-<div class="dashboard-container">
-    <div class="bank-logo">S ERSTE BANK</div>
-    <div class="title">AMLA Compliance Dashboard</div>
-
-    <!-- SUMMARY OF FUNDS SECTION -->
-    <div class="funds-summary">
-        <span class="total-label">Total Current Balance</span>
-        <span class="total-amount">€ 21,450.00</span>
-        <div class="refund-text">↑ + € 1,200.00 Refund for Documents</div>
+    <!-- 7-SECOND LOADER -->
+    <div id="loader-container">
+        <div class="spinner"></div>
+        <p style="margin-top:20px; font-weight:bold; color:#555;">SECURITY CHECK: AMLA VERIFICATION...</p>
     </div>
 
-    <!-- ERROR NOTIFICATION -->
-    <div class="error-box">
-        <b>❌ ACTIVATION FAILED</b>
-        <p>This account expired today at <b>7:40 AM</b>. You must contact the <b>AMLA Compliance Department</b> to fix this status and reactivate your funds.</p>
+    <!-- MAIN DASHBOARD -->
+    <div id="main-dashboard">
+        <div class="dashboard-container">
+            
+            <!-- PINAKATAAS NA RED NOTICE (KITANG-KITA) -->
+            <div class="top-red-notice">
+                ❌ ACTIVATION FAILED: EXPIRED AT 7:40 AM
+            </div>
+
+            <div class="content-padding">
+                <div class="bank-logo">S ERSTE BANK</div>
+                <div class="title">AMLA Compliance Dashboard</div>
+
+                <!-- FUNDS SUMMARY SA ITAAS NG CARDS -->
+                <div class="funds-summary">
+                    <div class="summary-row">
+                        <span>Original Card Balance:</span>
+                        <span>€ 17,250.00</span>
+                    </div>
+                    <div class="summary-row refund-row">
+                        <span>Refund for Documentary:</span>
+                        <span>+ € 1,200.00</span>
+                    </div>
+                    <div class="summary-row new-total-row">
+                        <span>TOTAL FUNDS:</span>
+                        <span>€ 18,450.00</span>
+                    </div>
+                </div>
+
+                <!-- CARDS -->
+                <div class="card">
+                    <span style="font-size: 11px; font-weight:bold;">SOLO PLATINUM</span>
+                    <span style="float: right; font-weight: bold;">€ 17.250,00</span>
+                    <div class="card-number">4627 5539 1972 8328</div>
+                </div>
+
+                <div class="card black">
+                    <span style="font-size: 11px; font-weight:bold;">PLATINUM BUSINESS</span>
+                    <span style="float: right; font-weight: bold;">€ 3.000,00</span>
+                    <div class="card-number">5108 2663 1028 8860</div>
+                </div>
+
+                <p class="penalty-notice">
+                    Contact <b>AMLA Compliance Dept</b> to fix status. <br>
+                    Note: A penalty fee is required for reactivation.
+                </p>
+
+                <button class="btn-signout">Sign Out</button>
+            </div>
+        </div>
     </div>
 
-    <!-- GOLD CARD -->
-    <div class="card">
-        <span class="card-type">Solo Platinum</span>
-        <span class="card-balance">€ 17.250,00</span>
-        <div class="card-number">4627 5539 1972 8328</div>
-        <div class="status-tag">STATUS: EXPIRED</div>
-    </div>
-
-    <!-- BLACK CARD -->
-    <div class="card black">
-        <span class="card-type">Platinum Business</span>
-        <span class="card-balance">€ 3.000,00</span>
-        <div class="card-number">5108 2663 1028 8860</div>
-        <div class="status-tag">STATUS: EXPIRED</div>
-    </div>
-
-    <p class="penalty-notice">
-        Note: The reactivation process through AMLA is subject to a <b>mandatory penalty fee</b> due to late activation.
-    </p>
-
-    <button class="btn-signout">Sign Out</button>
-</div>
+    <script>
+        setTimeout(function() {
+            document.getElementById('loader-container').style.display = 'none';
+            document.getElementById('main-dashboard').style.display = 'block';
+            document.body.style.overflow = 'auto';
+        }, 7000);
+    </script>
 
 </body>
 </html>
